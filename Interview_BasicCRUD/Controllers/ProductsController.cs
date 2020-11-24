@@ -96,7 +96,11 @@ namespace Interview_BasicCRUD.Controllers
             _mapper.Map(productForUpdateDto, productItem);
             await _productRepositroy.SaveAsync();
 
-            return NoContent();
+            return CreatedAtRoute("GetProductById",
+              new { ProductId = productItem.Id },
+              productItem);
+
+            //return NoContent();
         }
 
 
@@ -130,7 +134,10 @@ namespace Interview_BasicCRUD.Controllers
             _mapper.Map(productToPatch, productItem);
             await _productRepositroy.SaveAsync();
 
-            return NoContent();
+            return CreatedAtRoute("GetProductById",
+              new { ProductId = productItem.Id },
+              productItem);
+            //return NoContent();
         }
 
 
