@@ -12,7 +12,7 @@ namespace Interview_BasicCRUD.Dto
         [Required(ErrorMessage = "產品名稱不可為空值")]
         [MaxLength(100)]
         public string ProductName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "產品描述不可為空值")]
         [MaxLength(1000)]
         public string Description { get; set; }
         public decimal OriginalPrice { get; set; }

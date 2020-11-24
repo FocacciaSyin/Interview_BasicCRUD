@@ -23,6 +23,7 @@ namespace Interview_BasicCRUD.Profiles
                 opt => opt.MapFrom(src => src.DB_CRDAT.ToString("yyyy-MM-dd HH:MM:ss"))
                 );
 
+            CreateMap<Product, ProductForUpdateDto>();
 
             CreateMap<ProductForCreateDto, Product>()
                 .ForMember(

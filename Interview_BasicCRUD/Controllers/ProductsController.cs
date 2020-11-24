@@ -2,6 +2,7 @@
 using Interview_BasicCRUD.Dto;
 using Interview_BasicCRUD.Models;
 using Interview_BasicCRUD.Services;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,12 @@ namespace Interview_BasicCRUD.Controllers
         }
 
 
+        /// <summary>
+        /// 更新完整項目
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="productForUpdateDto"></param>
+        /// <returns></returns>
         [HttpPut("{productId}")]
         public async Task<IActionResult> UpdateProduct(
             [FromRoute] Guid productId,
@@ -92,10 +99,39 @@ namespace Interview_BasicCRUD.Controllers
             return NoContent();
         }
 
-        //[HttpPatch("{productId}")]
-        //public async Task<IActionResult> PatiallyUpdateProduct()
-        //{
-        //}
+
+        /// <summary>
+        /// 更新有傳入值的欄位
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="productForUpdateDto"></param>
+        /// <returns></returns>
+        [HttpPatch("{productId}")]
+        public async Task<IActionResult> PatiallyUpdateProduct(
+            [FromRoute] Guid productId,
+            [FromBody] JsonPatchDocument<ProductForUpdateDto> patchDocument)
+        {
+
+            var isProductExist = await _productRepositroy.ProductExistsAsync(productId);
+            if (!isProductExist)
+                return NotFound("使用產品Id查無資料");
+
+            var productItem = await _productRepositroy.GetProductByIdAsync(productId);
+
+            var productToPatch = _mapper.Map<ProductForUpdateDto>(productItem);
+            patchDocument.ApplyTo(productToPatch, ModelState);
+
+            //資料驗證
+            if (!TryValidateModel(productToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(productToPatch, productItem);
+            await _productRepositroy.SaveAsync();
+
+            return NoContent();
+        }
 
 
     }
