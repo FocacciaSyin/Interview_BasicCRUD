@@ -1,4 +1,6 @@
+using AutoMapper;
 using Interview_BasicCRUD.Database;
+using Interview_BasicCRUD.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +31,12 @@ namespace Interview_BasicCRUD
             services.AddControllers();
             //加入對Sqlite的服務支援
             services.AddScoped<AppDbContext>();
+            //加入Swagger
+            services.AddSwaggerGen();
+
+            services.AddTransient<IProductRepositroy, ProductRepositroy>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +48,15 @@ namespace Interview_BasicCRUD
             }
 
             app.UseHttpsRedirection();
+
+            #region 加入swager相關項目
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
+            #endregion
 
             app.UseRouting();
 
