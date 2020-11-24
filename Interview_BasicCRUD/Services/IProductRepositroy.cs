@@ -49,7 +49,6 @@ namespace Interview_BasicCRUD.Services
         Task DeleteProduct(Product product);
         #endregion
 
-
         Task<bool> SaveAsync();
     }
 }

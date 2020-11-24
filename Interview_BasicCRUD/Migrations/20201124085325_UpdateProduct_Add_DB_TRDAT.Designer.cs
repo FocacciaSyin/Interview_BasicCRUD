@@ -3,14 +3,16 @@ using System;
 using Interview_BasicCRUD.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Interview_BasicCRUD.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201124085325_UpdateProduct_Add_DB_TRDAT")]
+    partial class UpdateProduct_Add_DB_TRDAT
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +27,7 @@ namespace Interview_BasicCRUD.Migrations
                     b.Property<DateTime>("DB_CRDAT")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("DB_TRDAT")
+                    b.Property<DateTime>("DB_TRDAT")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")

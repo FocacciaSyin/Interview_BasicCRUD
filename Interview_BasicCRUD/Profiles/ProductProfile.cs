@@ -33,6 +33,14 @@ namespace Interview_BasicCRUD.Profiles
                 dest => dest.DB_CRDAT,
                 opt => opt.MapFrom(src => DateTime.Now)
                 );
+
+
+            CreateMap<ProductForUpdateDto, Product>()
+                .ForMember(
+                dest => dest.DB_TRDAT,
+                opt => opt.MapFrom(src => DateTime.Now)
+                );
+
         }
     }
 }

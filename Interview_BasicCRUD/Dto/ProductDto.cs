@@ -13,5 +13,7 @@ namespace Interview_BasicCRUD.Dto
         public string Description { get; set; }
         public string Price { get; set; }
         public DateTime DB_CRDAT { get; set; }
+
+        public DateTime? DB_TRDAT { get; set; }
     }
 }

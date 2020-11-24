@@ -75,5 +75,28 @@ namespace Interview_BasicCRUD.Controllers
         }
 
 
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> UpdateProduct(
+            [FromRoute] Guid productId,
+            [FromBody] ProductForUpdateDto productForUpdateDto)
+        {
+            var isProductExist = await _productRepositroy.ProductExistsAsync(productId);
+            if (!isProductExist)
+                return NotFound("使用產品Id查無資料");
+
+            var productItem = await _productRepositroy.GetProductByIdAsync(productId);
+
+            _mapper.Map(productForUpdateDto, productItem);
+            await _productRepositroy.SaveAsync();
+
+            return NoContent();
+        }
+
+        //[HttpPatch("{productId}")]
+        //public async Task<IActionResult> PatiallyUpdateProduct()
+        //{
+        //}
+
+
     }
 }
