@@ -12,8 +12,12 @@ namespace Interview_BasicCRUD.Services
         /// <summary>
         /// [GET]取得產品清單
         /// </summary>
+        /// <param name="productName"></param>
+        /// <param name="description"></param>
         /// <returns></returns>
-        Task<IEnumerable<Product>> GetProductsAsync();
+        Task<IQueryable<Product>> GetProductsAsync(
+            string productName, string description
+            );
 
         /// <summary>
         /// [GET]使用產品ID取得該產品資料

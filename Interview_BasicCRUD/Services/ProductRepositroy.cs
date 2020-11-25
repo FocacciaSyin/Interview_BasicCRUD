@@ -29,9 +29,33 @@ namespace Interview_BasicCRUD.Services
             return await _context.Products.Where(p => p.Id == productId).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync()
+        public async Task<IQueryable<Product>> GetProductsAsync(string productName, string description)
         {
-            return await _context.Products.ToListAsync();
+            IQueryable<Product> result = _context.Products.ToList().AsQueryable();
+
+            #region Where 
+
+            #region  ProductName
+            if (!string.IsNullOrWhiteSpace(productName))
+            {
+                productName = productName.Trim();
+                result = result.Where(t => t.ProductName.Contains(productName));
+            }
+            #endregion
+
+            #region  Description
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                description = description.Trim();
+                result = result.Where(t => t.Description.Contains(description));
+            }
+            #endregion
+
+            #endregion
+
+
+            return result;
+
         }
 
         public async Task AddProduct(Product product)

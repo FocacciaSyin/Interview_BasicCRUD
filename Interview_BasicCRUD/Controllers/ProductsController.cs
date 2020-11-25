@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Interview_BasicCRUD.Dto;
 using Interview_BasicCRUD.Models;
+using Interview_BasicCRUD.ResourceParamaters;
 using Interview_BasicCRUD.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,11 @@ namespace Interview_BasicCRUD.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts([FromQuery] ProductResourceParamaters paramaters)
         {
-            var productList = await _productRepositroy.GetProductsAsync();
+            var productList = await _productRepositroy.GetProductsAsync(
+                paramaters.ProductName, paramaters.Description
+                );
             return Ok(_mapper.Map<IEnumerable<ProductDto>>(productList));
         }
 
