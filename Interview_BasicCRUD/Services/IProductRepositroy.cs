@@ -1,4 +1,5 @@
-﻿using Interview_BasicCRUD.Models;
+﻿using Interview_BasicCRUD.Helpers;
+using Interview_BasicCRUD.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,12 @@ namespace Interview_BasicCRUD.Services
         /// </summary>
         /// <param name="productName"></param>
         /// <param name="description"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageNumber"></param>
         /// <returns></returns>
-        Task<IQueryable<Product>> GetProductsAsync(
-            string productName, string description
+        Task<PaginationList<Product>> GetProductsAsync(
+            string productName, string description,
+            int pageSize, int pageNumber
             );
 
         /// <summary>

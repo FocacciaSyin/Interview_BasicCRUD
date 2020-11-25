@@ -29,11 +29,17 @@ namespace Interview_BasicCRUD.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts([FromQuery] ProductResourceParamaters paramaters)
+        public async Task<IActionResult> GetProducts(
+            [FromQuery] ProductResourceParamaters paramaters,
+            [FromQuery] PageResourceParamaters pageParamaters)
         {
             var productList = await _productRepositroy.GetProductsAsync(
-                paramaters.ProductName, paramaters.Description
+                paramaters.ProductName, paramaters.Description,
+                pageParamaters.PageSize, pageParamaters.PageNumber
                 );
+
+            if (productList == null || productList.Count() == 0)
+                return NotFound("沒有產品資料");
             return Ok(_mapper.Map<IEnumerable<ProductDto>>(productList));
         }
 

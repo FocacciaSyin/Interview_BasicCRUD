@@ -1,4 +1,5 @@
 ﻿using Interview_BasicCRUD.Database;
+using Interview_BasicCRUD.Helpers;
 using Interview_BasicCRUD.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,12 +30,10 @@ namespace Interview_BasicCRUD.Services
             return await _context.Products.Where(p => p.Id == productId).FirstOrDefaultAsync();
         }
 
-        public async Task<IQueryable<Product>> GetProductsAsync(string productName, string description)
+        public async Task<PaginationList<Product>> GetProductsAsync(string productName, string description, int pageSize, int pageNumber)
         {
-            IQueryable<Product> result = _context.Products.ToList().AsQueryable();
-
+            IQueryable<Product> result = _context.Products;
             #region Where 
-
             #region  ProductName
             if (!string.IsNullOrWhiteSpace(productName))
             {
@@ -50,11 +49,8 @@ namespace Interview_BasicCRUD.Services
                 result = result.Where(t => t.Description.Contains(description));
             }
             #endregion
-
             #endregion
-
-
-            return result;
+            return await PaginationList<Product>.CreateAsync(pageNumber, pageSize, result);
 
         }
 
